@@ -257,7 +257,7 @@
             // Determine API URL based on environment
             const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
                 ? 'http://localhost:3000/api/chat'
-                : 'https://wemen-e86q.onrender.com/api/chat';  // Use relative path for production
+                : 'https://wemen-api.onrender.com/api/chat';  // Use relative path for production
 
             try {
                 const response = await fetch(apiUrl, {

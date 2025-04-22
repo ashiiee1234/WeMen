@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Advisory - WeMen Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>WeMen</h1>
+                <p class="tagline">Support for Men Facing False Accusations</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="forum.html"><i class="fas fa-comments"></i> Community</a></li>
+                    <li><a href="legal-advice.html" class="active"><i class="fas fa-gavel"></i> Legal Advisory</a></li>
+                    <li><a href="lawyer-directory.html"><i class="fas fa-user-tie"></i> Lawyers</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="btn-secondary"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button id="registerBtn" class="btn-primary"><i class="fas fa-user-plus"></i> Register</button>
+                <div id="userProfile" class="user-profile hidden">
+                    <span id="userName">User</span>
+                    <button id="logoutBtn" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Legal Advisory Chatbot</h1>
+            <p>Get preliminary legal guidance through our advisory chatbot. Ask questions about legal procedures, rights, and next steps.</p>
+        </div>
+    </section>
+
+    <section class="legal-topics">
+        <div class="container">
+            <h2>Common Legal Topics</h2>
+            <p class="text-center">Click on any topic to get instant guidance from our chatbot</p>
+            <div class="topics-grid">
+                <div class="topic-button" data-topic="ipc 498a">
+                    <i class="fas fa-gavel"></i>
+                    <h3>IPC 498A</h3>
+                </div>
+                <div class="topic-button" data-topic="divorce">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>Divorce Cases</h3>
+                </div>
+                <div class="topic-button" data-topic="custody">
+                    <i class="fas fa-child"></i>
+                    <h3>Child Custody</h3>
+                </div>
+                <div class="topic-button" data-topic="harassment">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Harassment</h3>
+                </div>
+                <div class="topic-button" data-topic="defamation">
+                    <i class="fas fa-comment-slash"></i>
+                    <h3>Defamation</h3>
+                </div>
+                <div class="topic-button" data-topic="evidence">
+                    <i class="fas fa-search"></i>
+                    <h3>Evidence Collection</h3>
+                </div>
+                <div class="topic-button" data-topic="bail">
+                    <i class="fas fa-unlock"></i>
+                    <h3>Bail Procedures</h3>
+                </div>
+                <div class="topic-button" data-topic="rights">
+                    <i class="fas fa-balance-scale"></i>
+                    <h3>Legal Rights</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <i class="fas fa-robot"></i>
+            <h2>Legal Advisory Chatbot</h2>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added dynamically -->
+        </div>
+        <form id="chatForm" class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type your legal question here..." required>
+            <button type="submit">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="chat-disclaimer">
+        <h3><i class="fas fa-exclamation-circle"></i> Disclaimer</h3>
+        <p>This chatbot provides general legal information and is not a substitute for professional legal advice. The information provided is based on common scenarios and may not apply to your specific situation. Always consult with a qualified lawyer for personalized legal advice.</p>
+    </div>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Need Personalized Legal Advice?</h2>
+            <p>Our chatbot provides general guidance, but for personalized legal advice, connect with a specialized lawyer.</p>
+            <div class="cta-buttons">
+                <a href="lawyer-directory.html" class="btn-primary">Find a Lawyer</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>WeMen</h3>
+                    <p>Support for men facing false accusations. We're here to help you navigate through difficult times.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="legal-advice.html">Legal Advisory</a></li>
+                        <li><a href="lawyer-directory.html">Lawyer Directory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <p>Email: support@wemen.org</p>
+                    <p>Helpline: +91 1234567890</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 WeMen. All rights reserved.</p>
+                <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" id="googleLogin" class="btn-google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div>
+                <p class="form-footer">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+                <div class="social-login">
+                    <p>Or register with:</p>
+                    <button type="button" id="googleRegister" class="btn-google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div>
+                <p class="form-footer">Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Topic buttons functionality
+        document.querySelectorAll('.topic-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const topic = button.getAttribute('data-topic');
+                document.getElementById('messageInput').value = `Tell me about ${topic}`;
+                // Trigger sendMessage directly instead of form submission event
+                sendMessage();
+            });
+        });
+
+        // AI Chatbot functionality
+        async function sendMessage() {
+            const userInput = document.getElementById("messageInput").value;
+            if (!userInput) return;
+
+            const chatMessages = document.getElementById("chatMessages");
+            
+            // Add user message
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message user';
+            userMessageDiv.innerHTML = `
+                <div class="message-content">${userInput}</div>
+                <div class="message-time">${new Date().toLocaleTimeString()}</div>
+            `;
+            chatMessages.appendChild(userMessageDiv);
+            
+            // Clear input
+            document.getElementById("messageInput").value = "";
+            
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.innerHTML = `<div class="message-content">Typing...</div>`;
+            chatMessages.appendChild(typingDiv);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Determine API URL based on environment
+            const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:3000/api/chat'
+                : 'https://wemen-e86q.onrender.com/api/chat';  // Use relative path for production
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "model": "anthropic/claude-3-haiku:beta",
+                        "messages": [
+                            {
+                                "role": "system",
+                                "content": "You are LexiBot, a legal advisor specializing in Indian law. You can provide personal opinions as well and provide some moral support  to the clients in order to look humble. Dont limit your knowledge to legal advices only and expand your knowledge to include some moral support and some general knowledge. In some times you can add humour to the chat but don't get diverted from your role. If the user is getting too off topic than dont answer to that instead as kthem to stay in the legal aspects only.Limit your answer leength to 60 words only."
+                            },
+                            {
+                                "role": "user",
+                                "content": userInput
+                            }
+                        ]
+                    })
+                });
+
+                // Log the full response for debugging
+                console.log("API Response status:", response.status);
+                const responseText = await response.text();
+                console.log("API Response text:", responseText);
+                
+                // Remove typing indicator
+                chatMessages.removeChild(typingDiv);
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} - ${responseText}`);
+                }
+
+                // Parse the JSON response (from text we already got)
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (e) {
+                    console.error("JSON parse error:", e);
+                    throw new Error("Failed to parse response from API");
+                }
+                
+                console.log("Parsed data:", data);
+                
+                // Extract the bot response with proper fallback
+                const botResponse = data.choices && 
+                                   data.choices[0] && 
+                                   data.choices[0].message && 
+                                   data.choices[0].message.content 
+                                   ? data.choices[0].message.content 
+                                   : "I couldn't retrieve legal information at the moment.";
+                
+                // Add bot response
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.className = 'message bot';
+                botMessageDiv.innerHTML = `
+                    <div class="message-content">${botResponse}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                `;
+                chatMessages.appendChild(botMessageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } catch (error) {
+                console.error("Error:", error);
+                
+                // Try to remove typing indicator, but don't error if it's already gone
+                try {
+                    chatMessages.removeChild(typingDiv);
+                } catch (e) {
+                    console.log("Typing indicator already removed");
+                }
+                
+                // Add error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message bot';
+                errorDiv.innerHTML = `
+                    <div class="message-content">Error fetching response: ${error.message}. Please check the console for more details.</div>
+                    <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                `;
+                chatMessages.appendChild(errorDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // Add welcome message on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatMessages = document.getElementById("chatMessages");
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.className = 'message bot';
+            welcomeDiv.innerHTML = `
+                <div class="message-content">
+                    Welcome to LexiBot! I'm your legal assistant specializing in Indian law. 
+                    How can I help you today? You can ask me about legal procedures, rights, or select a topic above.
+                </div>
+                <div class="message-time">${new Date().toLocaleTimeString()}</div>
+            `;
+            chatMessages.appendChild(welcomeDiv);
+            
+            // Setup the chat form submission
+            const chatForm = document.getElementById('chatForm');
+            if (chatForm) {
+                chatForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    sendMessage();
+                });
+            }
+            
+            // Add click listener directly to the send button
+            const sendButton = document.querySelector('.chat-input button');
+            if (sendButton) {
+                sendButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sendMessage();
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

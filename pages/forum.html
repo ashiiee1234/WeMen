@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Forum - WeMen Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>WeMen</h1>
+                <p class="tagline">Support for Men Facing False Accusations</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="forum.html" class="active"><i class="fas fa-comments"></i> Community</a></li>
+                    <li><a href="legal-advice.html"><i class="fas fa-gavel"></i> Legal Advisory</a></li>
+                    <li><a href="lawyer-directory.html"><i class="fas fa-user-tie"></i> Lawyers</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="btn-secondary"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button id="registerBtn" class="btn-primary"><i class="fas fa-user-plus"></i> Register</button>
+                <div id="userProfile" class="user-profile hidden">
+                    <span id="userName">User</span>
+                    <button id="logoutBtn" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Community Forum</h1>
+            <p>Connect with others who have faced similar situations. Share experiences, seek advice, and support each other.</p>
+            <div class="header-actions" style="margin-top: 20px; text-align: center;">
+                <a href="#newTopicModal" id="showNewTopicBtn" class="btn-community"><i class="fas fa-users"></i> Join The Discussion</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="forum-section">
+        <div class="container">
+            <div class="forum-container">
+                <div class="forum-header">
+                    <button id="newTopicBtn" class="btn-primary">
+                        <i class="fas fa-plus"></i> New Topic
+                    </button>
+                    <div class="forum-filters">
+                        <select id="categoryFilter">
+                            <option value="all">All Categories</option>
+                            <option value="IPC 498A">IPC 498A</option>
+                            <option value="False Accusations">False Accusations</option>
+                            <option value="Divorce">Divorce</option>
+                            <option value="Child Custody">Child Custody</option>
+                            <option value="Legal Advice">Legal Advice</option>
+                            <option value="Success Stories">Success Stories</option>
+                            <option value="General Discussion">General Discussion</option>
+                        </select>
+                        <select id="sortBy">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="popular">Most Viewed</option>
+                            <option value="mostReplies">Most Replies</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <form id="searchForm" class="forum-search">
+                    <input type="text" id="searchInput" placeholder="Search topics...">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                
+                <div class="forum-topics">
+                    <!-- Topics will be loaded dynamically -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading topics...
+                    </div>
+                </div>
+                
+                <div class="pagination">
+                    <button><i class="fas fa-chevron-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="forum-guidelines">
+        <div class="container">
+            <h2>Forum Guidelines</h2>
+            <div class="guidelines-grid">
+                <div class="guideline-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Be Respectful</h3>
+                    <p>Treat others with respect and empathy. We're all here to support each other through difficult times.</p>
+                </div>
+                <div class="guideline-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Protect Privacy</h3>
+                    <p>Do not share personal identifying information of yourself or others. Maintain anonymity when necessary.</p>
+                </div>
+                <div class="guideline-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Stay Factual</h3>
+                    <p>Share accurate information and experiences. Avoid spreading misinformation or unverified claims.</p>
+                </div>
+                <div class="guideline-card">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Be Supportive</h3>
+                    <p>Offer constructive advice and emotional support. Remember that everyone's situation is unique.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>WeMen</h3>
+                    <p>Support for men facing false accusations. We're here to help you navigate through difficult times.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="legal-advice.html">Legal Advisory</a></li>
+                        <li><a href="lawyer-directory.html">Lawyer Directory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <p>Email: support@wemen.org</p>
+                    <p>Helpline: +91 1234567890</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 WeMen. All rights reserved.</p>
+                <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" id="googleLogin" class="btn-google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div>
+                <p class="form-footer">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+                <div class="social-login">
+                    <p>Or register with:</p>
+                    <button type="button" id="googleRegister" class="btn-google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div>
+                <p class="form-footer">Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Topic Modal -->
+    <div id="newTopicModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Topic</h2>
+            <form id="topicForm">
+                <div class="form-group">
+                    <label for="topicTitle">Title</label>
+                    <input type="text" id="topicTitle" required placeholder="Enter a descriptive title">
+                </div>
+                <div class="form-group">
+                    <label for="topicCategory">Category</label>
+                    <select id="topicCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="IPC 498A">IPC 498A</option>
+                        <option value="False Accusations">False Accusations</option>
+                        <option value="Divorce">Divorce</option>
+                        <option value="Child Custody">Child Custody</option>
+                        <option value="Legal Advice">Legal Advice</option>
+                        <option value="Success Stories">Success Stories</option>
+                        <option value="General Discussion">General Discussion</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="topicContent">Content</label>
+                    <textarea id="topicContent" rows="8" required placeholder="Share your experience or question..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="terms.html">Forum Guidelines</a> and understand that inappropriate content may be removed.
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary">Create Topic</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Make the Join Discussion button open the new topic modal
+        document.getElementById('showNewTopicBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('newTopicModal').style.display = 'block';
+        });
+    </script>
+</body>
+</html> 

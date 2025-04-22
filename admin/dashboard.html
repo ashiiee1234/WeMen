@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - WeMen Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2>WeMen Admin</h2>
+            </div>
+            <div class="admin-menu">
+                <h3>Main</h3>
+                <ul>
+                    <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="cases.html"><i class="fas fa-file-alt"></i> Cases</a></li>
+                    <li><a href="users.html"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="forum-management.html"><i class="fas fa-comments"></i> Forum</a></li>
+                </ul>
+            </div>
+            <div class="admin-menu">
+                <h3>Settings</h3>
+                <ul>
+                    <li><a href="profile.html"><i class="fas fa-user-cog"></i> Profile</a></li>
+                    <li><a href="#" id="adminLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1 class="admin-title">Dashboard</h1>
+                <div class="admin-user">
+                    <img src="profile-photo.jpg" alt=" ">
+                    <span id="adminName">Admin User</span>
+                </div>
+            </div>
+            
+            <div class="admin-cards">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon blue">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="totalCases">0</div>
+                    <div class="admin-card-label">Total Cases</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon orange">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="pendingCases">0</div>
+                    <div class="admin-card-label">Pending Cases</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="approvedCases">0</div>
+                    <div class="admin-card-label">Approved Cases</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon red">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="totalUsers">0</div>
+                    <div class="admin-card-label">Registered Users</div>
+                </div>
+            </div>
+            
+            <div class="admin-table">
+                <div class="admin-table-header">
+                    <h2 class="admin-table-title">Recent Cases</h2>
+                    <div class="admin-table-actions">
+                        <a href="cases.html" class="btn-secondary">View All</a>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentCasesTable">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading cases...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="admin-table" style="margin-top: 30px;">
+                <div class="admin-table-header">
+                    <h2 class="admin-table-title">Recent Forum Activity</h2>
+                    <div class="admin-table-actions">
+                        <a href="forum-management.html" class="btn-secondary">View All</a>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Replies</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentForumTable">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading forum topics...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Case Details Modal -->
+    <div id="caseDetailsModal" class="modal case-details-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="case-details-header">
+                <h2 class="case-details-title">Case Details</h2>
+                <div class="case-details-status">
+                    <span id="caseStatusBadge" class="status pending">Pending</span>
+                </div>
+            </div>
+            <div class="case-details-info">
+                <div class="case-details-item">
+                    <div class="case-details-label">Case ID</div>
+                    <div class="case-details-value" id="caseId"></div>
+                </div>
+                <div class="case-details-item">
+                    <div class="case-details-label">Submitted On</div>
+                    <div class="case-details-value" id="caseDate"></div>
+                </div>
+                <div class="case-details-item">
+                    <div class="case-details-label">Name</div>
+                    <div class="case-details-value" id="caseName"></div>
+                </div>
+                <div class="case-details-item">
+                    <div class="case-details-label">Email</div>
+                    <div class="case-details-value" id="caseEmail"></div>
+                </div>
+                <div class="case-details-item">
+                    <div class="case-details-label">Phone</div>
+                    <div class="case-details-value" id="casePhone"></div>
+                </div>
+                <div class="case-details-item">
+                    <div class="case-details-label">Location</div>
+                    <div class="case-details-value" id="caseLocation"></div>
+                </div>
+                <div class="case-details-item">
+                    <div class="case-details-label">Case Type</div>
+                    <div class="case-details-value" id="caseType"></div>
+                </div>
+            </div>
+            <div class="case-details-description">
+                <h3>Description</h3>
+                <p id="caseDescription"></p>
+            </div>
+            <div class="case-details-attachments">
+                <h3>Attachments</h3>
+                <div class="attachments-list" id="caseAttachments">
+                    <p>No attachments found.</p>
+                </div>
+            </div>
+            <div class="case-details-actions">
+                <button id="rejectCaseBtn" class="btn-secondary">Reject Case</button>
+                <button id="approveCaseBtn" class="btn-primary">Approve Case</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html> 

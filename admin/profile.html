@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile - WeMen Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2>WeMen Admin</h2>
+            </div>
+            <div class="admin-menu">
+                <h3>Main</h3>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="cases.html"><i class="fas fa-file-alt"></i> Cases</a></li>
+                    <li><a href="users.html"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="forum-management.html"><i class="fas fa-comments"></i> Forum</a></li>
+                </ul>
+            </div>
+            <div class="admin-menu">
+                <h3>Settings</h3>
+                <ul>
+                    <li><a href="profile.html" class="active"><i class="fas fa-user-cog"></i> Profile</a></li>
+                    <li><a href="#" id="adminLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1 class="admin-title">Admin Profile</h1>
+                <div class="admin-user">
+                    <img src="profile-photo.jpg" alt="Admin" id="headerProfileImage">
+                    <span id="adminName">Admin User</span>
+                </div>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-section">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img src="../images/default-avatar.jpg" alt="Profile" id="profileImage">
+                            <div class="profile-avatar-overlay">
+                                <i class="fas fa-camera"></i>
+                                <span>Change</span>
+                            </div>
+                            <input type="file" id="profileImageUpload" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profileName">Admin Name</h2>
+                            <p id="profileEmail">admin@example.com</p>
+                            <span class="status approved">Administrator</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h3 class="section-heading"><i class="fas fa-user"></i> Personal Information</h3>
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <div class="form-control">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" placeholder="Your Full Name">
+                            </div>
+                            <div class="form-control">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="Your Email" disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-control">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" placeholder="Your Phone Number">
+                            </div>
+                            <div class="form-control">
+                                <label for="location">Location</label>
+                                <input type="text" id="location" placeholder="Your Location">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-control">
+                                <label for="bio">Bio</label>
+                                <textarea id="bio" rows="4" placeholder="Short bio about yourself"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="profile-section">
+                    <h3 class="section-heading"><i class="fas fa-lock"></i> Security</h3>
+                    <form id="securityForm">
+                        <div class="form-row">
+                            <div class="form-control">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" placeholder="Enter current password">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-control">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" placeholder="Enter new password">
+                            </div>
+                            <div class="form-control">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                            </div>
+                        </div>
+                        <div class="password-requirements">
+                            <p><i class="fas fa-info-circle"></i> Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character.</p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="profile-section">
+                    <h3 class="section-heading"><i class="fas fa-bell"></i> Notification Settings</h3>
+                    <div class="notification-settings">
+                        <div class="notification-option">
+                            <div class="notification-info">
+                                <h4>New Case Notifications</h4>
+                                <p>Receive notifications when a new case is submitted</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="caseNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-option">
+                            <div class="notification-info">
+                                <h4>Forum Notifications</h4>
+                                <p>Receive notifications about forum activities</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="forumNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-option">
+                            <div class="notification-info">
+                                <h4>Email Notifications</h4>
+                                <p>Receive email notifications for important updates</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="emailNotifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button id="resetProfileBtn" class="btn-secondary">Reset Changes</button>
+                    <button id="saveProfileBtn" class="btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Message -->
+    <div id="successMessage" class="message-toast">
+        <div class="message-icon success"><i class="fas fa-check-circle"></i></div>
+        <div class="message-content">
+            <p>Your profile has been updated successfully!</p>
+        </div>
+        <button class="message-close"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <!-- Error Message -->
+    <div id="errorMessage" class="message-toast">
+        <div class="message-icon error"><i class="fas fa-exclamation-circle"></i></div>
+        <div class="message-content">
+            <p>There was an error updating your profile. Please try again.</p>
+        </div>
+        <button class="message-close"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html> 

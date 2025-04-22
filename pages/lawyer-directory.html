@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawyer Directory - WeMen Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>WeMen</h1>
+                <p class="tagline">Support for Men Facing False Accusations</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="forum.html"><i class="fas fa-comments"></i> Community</a></li>
+                    <li><a href="legal-advice.html"><i class="fas fa-gavel"></i> Legal Advisory</a></li>
+                    <li><a href="lawyer-directory.html" class="active"><i class="fas fa-user-tie"></i> Lawyers</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="btn-secondary"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button id="registerBtn" class="btn-primary"><i class="fas fa-user-plus"></i> Register</button>
+                <div id="userProfile" class="user-profile hidden">
+                    <span id="userName">User</span>
+                    <button id="logoutBtn" class="btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Lawyer Directory</h1>
+            <p>Find specialized lawyers and NGOs who can help with your specific case. Our directory includes professionals with experience in handling false accusation cases.</p>
+        </div>
+    </section>
+
+    <section class="directory-section">
+        <div class="container">
+            <div class="directory-container">
+                <div class="directory-filters">
+                    <div class="filter-group">
+                        <label for="locationFilter">Location</label>
+                        <select id="locationFilter">
+                            <option value="">All Locations</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Ahmedabad">Ahmedabad</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="specializationFilter">Specialization</label>
+                        <select id="specializationFilter">
+                            <option value="">All Specializations</option>
+                            <option value="IPC 498A">IPC 498A</option>
+                            <option value="False Rape Accusations">False Rape Accusations</option>
+                            <option value="Divorce & Alimony">Divorce & Alimony</option>
+                            <option value="Child Custody">Child Custody</option>
+                            <option value="Workplace Harassment">Workplace Harassment</option>
+                            <option value="Defamation">Defamation</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="experienceFilter">Experience</label>
+                        <select id="experienceFilter">
+                            <option value="">Any Experience</option>
+                            <option value="1-5">1-5 Years</option>
+                            <option value="5-10">5-10 Years</option>
+                            <option value="10+">10+ Years</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="searchFilter">Search</label>
+                        <input type="text" id="searchFilter" placeholder="Search by name or keyword">
+                    </div>
+                    <div class="filter-button">
+                        <button class="btn-primary" id="applyFilters">Apply Filters</button>
+                    </div>
+                </div>
+                
+                <div class="lawyers-grid">
+                    <!-- Lawyer Card 1 -->
+                    <div class="lawyer-card">
+                        <div class="lawyer-header">
+                            <img src="https://superlawyer.in/wp-content/uploads/2024/04/Shihit.jpeg" alt="Advocate Rajesh Sharma">
+                            <div class="lawyer-verified">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </div>
+                        </div>
+                        <div class="lawyer-content">
+                            <h3 class="lawyer-name">Advocate Rajesh Sharma</h3>
+                            <p class="lawyer-specialization">IPC 498A Specialist</p>
+                            <div class="lawyer-info">
+                                <p><i class="fas fa-map-marker-alt"></i> Delhi High Court</p>
+                                <p><i class="fas fa-briefcase"></i> 15+ Years Experience</p>
+                                <p><i class="fas fa-gavel"></i> 200+ Cases Won</p>
+                            </div>
+                            <div class="lawyer-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.5 (120 reviews)</span>
+                            </div>
+                            <div class="lawyer-tags">
+                                <span class="lawyer-tag">IPC 498A</span>
+                                <span class="lawyer-tag">Divorce</span>
+                                <span class="lawyer-tag">Criminal Defense</span>
+                                <span class="lawyer-tag">Family Law</span>
+                            </div>
+                            <div class="lawyer-actions">
+                                <a href="tel:+919876543210" class="btn-secondary">
+                                    <i class="fas fa-phone"></i> Call
+                                </a>
+                                <a href="#" class="btn-primary">
+                                    <i class="fas fa-envelope"></i> Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lawyer Card 2 -->
+                    <div class="lawyer-card">
+                        <div class="lawyer-header">
+                            <img src="https://media.istockphoto.com/id/1326920136/photo/shot-of-a-business-women-using-laptop-working-at-home-stock-photo.jpg?s=612x612&w=0&k=20&c=tDhOPNMfBUlZLy5titrUrOXfHVbhVosEoQveTwuuL1Y=" alt="Advocate Priya Malhotra">
+                            <div class="lawyer-verified">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </div>
+                        </div>
+                        <div class="lawyer-content">
+                            <h3 class="lawyer-name">Advocate Priya Malhotra</h3>
+                            <p class="lawyer-specialization">False Accusations Expert</p>
+                            <div class="lawyer-info">
+                                <p><i class="fas fa-map-marker-alt"></i> Mumbai</p>
+                                <p><i class="fas fa-briefcase"></i> 12 Years Experience</p>
+                                <p><i class="fas fa-gavel"></i> 150+ Cases Won</p>
+                            </div>
+                            <div class="lawyer-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>5.0 (87 reviews)</span>
+                            </div>
+                            <div class="lawyer-tags">
+                                <span class="lawyer-tag">False Accusations</span>
+                                <span class="lawyer-tag">Criminal Defense</span>
+                                <span class="lawyer-tag">Evidence Collection</span>
+                            </div>
+                            <div class="lawyer-actions">
+                                <a href="tel:+919876543211" class="btn-secondary">
+                                    <i class="fas fa-phone"></i> Call
+                                </a>
+                                <a href="#" class="btn-primary">
+                                    <i class="fas fa-envelope"></i> Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lawyer Card 3 -->
+                    <div class="lawyer-card">
+                        <div class="lawyer-header">
+                            <img src="https://superlawyer.in/wp-content/uploads/2016/10/arush-khanna-1.jpg" alt="Advocate Vikram Singh">
+                            <div class="lawyer-verified">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </div>
+                        </div>
+                        <div class="lawyer-content">
+                            <h3 class="lawyer-name">Advocate Vikram Singh</h3>
+                            <p class="lawyer-specialization">Divorce & Child Custody</p>
+                            <div class="lawyer-info">
+                                <p><i class="fas fa-map-marker-alt"></i> Bangalore</p>
+                                <p><i class="fas fa-briefcase"></i> 8 Years Experience</p>
+                                <p><i class="fas fa-gavel"></i> 120+ Cases Won</p>
+                            </div>
+                            <div class="lawyer-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.0 (65 reviews)</span>
+                            </div>
+                            <div class="lawyer-tags">
+                                <span class="lawyer-tag">Divorce</span>
+                                <span class="lawyer-tag">Child Custody</span>
+                                <span class="lawyer-tag">Alimony</span>
+                                <span class="lawyer-tag">Family Law</span>
+                            </div>
+                            <div class="lawyer-actions">
+                                <a href="tel:+919876543212" class="btn-secondary">
+                                    <i class="fas fa-phone"></i> Call
+                                </a>
+                                <a href="#" class="btn-primary">
+                                    <i class="fas fa-envelope"></i> Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lawyer Card 4 -->
+                    <div class="lawyer-card">
+                        <div class="lawyer-header">
+                            <img src="https://img1.wsimg.com/isteam/ip/9092f379-0845-443a-8c5e-e2882ae1f6e0/WhatsApp%20Image%202023-04-11%20at%2016.23.08.jpg/:/cr=t:14.31%25,l:0%25,w:100%25,h:71.39%25/rs=w:365,h:365,cg:true" alt="Advocate Anil Kumar">
+                            <div class="lawyer-verified">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </div>
+                        </div>
+                        <div class="lawyer-content">
+                            <h3 class="lawyer-name">Advocate Anil Kumar</h3>
+                            <p class="lawyer-specialization">Workplace Harassment</p>
+                            <div class="lawyer-info">
+                                <p><i class="fas fa-map-marker-alt"></i> Chennai</p>
+                                <p><i class="fas fa-briefcase"></i> 10 Years Experience</p>
+                                <p><i class="fas fa-gavel"></i> 90+ Cases Won</p>
+                            </div>
+                            <div class="lawyer-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.7 (52 reviews)</span>
+                            </div>
+                            <div class="lawyer-tags">
+                                <span class="lawyer-tag">Workplace Harassment</span>
+                                <span class="lawyer-tag">Employment Law</span>
+                                <span class="lawyer-tag">Defamation</span>
+                            </div>
+                            <div class="lawyer-actions">
+                                <a href="tel:+919876543213" class="btn-secondary">
+                                    <i class="fas fa-phone"></i> Call
+                                </a>
+                                <a href="#" class="btn-primary">
+                                    <i class="fas fa-envelope"></i> Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lawyer Card 5 -->
+                    <div class="lawyer-card">
+                        <div class="lawyer-header">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaDhamWyj_2G-icCy_z8DqPSg-GNwnCGBBTw&s" alt="Advocate Sunita Verma">
+                            <div class="lawyer-verified">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </div>
+                        </div>
+                        <div class="lawyer-content">
+                            <h3 class="lawyer-name">Advocate Sunita Verma</h3>
+                            <p class="lawyer-specialization">Defamation Specialist</p>
+                            <div class="lawyer-info">
+                                <p><i class="fas fa-map-marker-alt"></i> Hyderabad</p>
+                                <p><i class="fas fa-briefcase"></i> 9 Years Experience</p>
+                                <p><i class="fas fa-gavel"></i> 75+ Cases Won</p>
+                            </div>
+                            <div class="lawyer-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.2 (48 reviews)</span>
+                            </div>
+                            <div class="lawyer-tags">
+                                <span class="lawyer-tag">Defamation</span>
+                                <span class="lawyer-tag">Media Law</span>
+                                <span class="lawyer-tag">Reputation Management</span>
+                            </div>
+                            <div class="lawyer-actions">
+                                <a href="tel:+919876543214" class="btn-secondary">
+                                    <i class="fas fa-phone"></i> Call
+                                </a>
+                                <a href="#" class="btn-primary">
+                                    <i class="fas fa-envelope"></i> Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lawyer Card 6 -->
+                    <div class="lawyer-card">
+                        <div class="lawyer-header">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoLpLE0z4ALnfvirQ9Boh6oWYyhjD8S1ClwQ&s" alt="Advocate Rahul Mehta">
+                            <div class="lawyer-verified">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </div>
+                        </div>
+                        <div class="lawyer-content">
+                            <h3 class="lawyer-name">Advocate Rahul Mehta</h3>
+                            <p class="lawyer-specialization">IPC 498A & Divorce</p>
+                            <div class="lawyer-info">
+                                <p><i class="fas fa-map-marker-alt"></i> Kolkata</p>
+                                <p><i class="fas fa-briefcase"></i> 14 Years Experience</p>
+                                <p><i class="fas fa-gavel"></i> 180+ Cases Won</p>
+                            </div>
+                            <div class="lawyer-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.6 (95 reviews)</span>
+                            </div>
+                            <div class="lawyer-tags">
+                                <span class="lawyer-tag">IPC 498A</span>
+                                <span class="lawyer-tag">Divorce</span>
+                                <span class="lawyer-tag">Family Law</span>
+                                <span class="lawyer-tag">Criminal Defense</span>
+                            </div>
+                            <div class="lawyer-actions">
+                                <a href="tel:+919876543215" class="btn-secondary">
+                                    <i class="fas fa-phone"></i> Call
+                                </a>
+                                <a href="#" class="btn-primary">
+                                    <i class="fas fa-envelope"></i> Contact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pagination">
+                    <button><i class="fas fa-chevron-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Need Personalized Legal Support?</h2>
+            <p>Our platform connects you with specialized lawyers who can help with your specific case.</p>
+            <div class="cta-buttons">
+                <a href="legal-advice.html" class="btn-primary">Get Legal Advice</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>WeMen</h3>
+                    <p>Support for men facing false accusations. We're here to help you navigate through difficult times.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="forum.html">Community Forum</a></li>
+                        <li><a href="legal-advice.html">Legal Advisory</a></li>
+                        <li><a href="lawyer-directory.html">Lawyer Directory</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <p>Email: support@wemen.org</p>
+                    <p>Helpline: +91 1234567890</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 WeMen. All rights reserved.</p>
+                <p><a href="privacy-policy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" id="googleLogin" class="btn-google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div>
+                <p class="form-footer">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+                <div class="social-login">
+                    <p>Or register with:</p>
+                    <button type="button" id="googleRegister" class="btn-google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div>
+                <p class="form-footer">Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Filter functionality
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            // In a real implementation, this would filter the lawyers based on the selected criteria
+            alert('Filters applied! This would filter the lawyers in a real implementation.');
+        });
+        
+        // Contact functionality
+        document.querySelectorAll('.lawyer-actions .btn-primary').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lawyerName = e.target.closest('.lawyer-card').querySelector('.lawyer-name').textContent;
+                alert(`Contact form for ${lawyerName} would open in a real implementation.`);
+            });
+        });
+    </script>
+</body>
+</html> 

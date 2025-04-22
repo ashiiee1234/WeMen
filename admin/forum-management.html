@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Forum - WeMen Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2>WeMen Admin</h2>
+            </div>
+            <div class="admin-menu">
+                <h3>Main</h3>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="cases.html"><i class="fas fa-file-alt"></i> Cases</a></li>
+                    <li><a href="users.html"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="forum-management.html" class="active"><i class="fas fa-comments"></i> Forum</a></li>
+                </ul>
+            </div>
+            <div class="admin-menu">
+                <h3>Settings</h3>
+                <ul>
+                    <li><a href="profile.html"><i class="fas fa-user-cog"></i> Profile</a></li>
+                    <li><a href="#" id="adminLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1 class="admin-title">Forum Management</h1>
+                <div class="admin-user">
+                    <img src="admin-logo.png" alt="Admin">
+                    <span id="adminName">Admin User</span>
+                </div>
+            </div>
+            
+            <!-- Forum Statistics -->
+            <div class="admin-cards">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon blue">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="totalTopics">0</div>
+                    <div class="admin-card-label">Total Topics</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon orange">
+                            <i class="fas fa-reply-all"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="totalReplies">0</div>
+                    <div class="admin-card-label">Total Replies</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon green">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="totalCategories">0</div>
+                    <div class="admin-card-label">Categories</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon red">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="reportedPosts">0</div>
+                    <div class="admin-card-label">Reported Posts</div>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="admin-tabs">
+                <ul class="admin-nav-tabs">
+                    <li><a href="#topics" class="active" data-tab="topics">Topics</a></li>
+                    <li><a href="#categories" data-tab="categories">Categories</a></li>
+                    <li><a href="#reported" data-tab="reported">Reported Posts</a></li>
+                </ul>
+            </div>
+            
+            <!-- Topics Tab -->
+            <div id="topics" class="admin-tab-content active">
+                <!-- Topics Filters -->
+                <div class="admin-filters">
+                    <div class="filter-group">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter">
+                            <option value="all">All Categories</option>
+                            <!-- Categories will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sortFilter">Sort By</label>
+                        <select id="sortFilter">
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="mostReplies">Most Replies</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="topicSearchFilter">Search</label>
+                        <input type="text" id="topicSearchFilter" placeholder="Search topics...">
+                    </div>
+                    <button id="applyTopicFilters" class="btn-primary"><i class="fas fa-filter"></i> Apply Filters</button>
+                </div>
+                
+                <div class="admin-table">
+                    <div class="admin-table-header">
+                        <h2 class="admin-table-title">Forum Topics</h2>
+                        <div class="admin-table-actions">
+                            <button id="addTopic" class="btn-primary"><i class="fas fa-plus"></i> Add Topic</button>
+                            <button id="exportTopics" class="btn-secondary"><i class="fas fa-download"></i> Export</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Replies</th>
+                                <th>Views</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="topicsTable">
+                            <tr>
+                                <td colspan="7" class="text-center">Loading topics...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="topicsPagination">
+                    <!-- Pagination will be generated dynamically -->
+                </div>
+            </div>
+            
+            <!-- Categories Tab -->
+            <div id="categories" class="admin-tab-content">
+                <div class="admin-table">
+                    <div class="admin-table-header">
+                        <h2 class="admin-table-title">Forum Categories</h2>
+                        <div class="admin-table-actions">
+                            <button id="addCategory" class="btn-primary"><i class="fas fa-plus"></i> Add Category</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Topics</th>
+                                <th>Order</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categoriesTable">
+                            <tr>
+                                <td colspan="5" class="text-center">Loading categories...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Reported Posts Tab -->
+            <div id="reported" class="admin-tab-content">
+                <div class="admin-table">
+                    <div class="admin-table-header">
+                        <h2 class="admin-table-title">Reported Posts</h2>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Content</th>
+                                <th>Author</th>
+                                <th>Reported By</th>
+                                <th>Reason</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportedTable">
+                            <tr>
+                                <td colspan="6" class="text-center">Loading reported posts...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Topic Details Modal -->
+    <div id="topicDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Topic Details</h2>
+            <div class="topic-details-container">
+                <div class="topic-header">
+                    <h3 id="topicTitle">Topic Title</h3>
+                    <div class="topic-meta">
+                        <span id="topicAuthor">Author Name</span> | <span id="topicDate">Date</span>
+                    </div>
+                </div>
+                <div class="topic-content">
+                    <p id="topicContent">Topic content will be displayed here.</p>
+                </div>
+                <div class="topic-details-section">
+                    <h4>Details</h4>
+                    <div class="topic-details-item">
+                        <div class="topic-details-label">Category</div>
+                        <div class="topic-details-value" id="topicCategory">Category Name</div>
+                    </div>
+                    <div class="topic-details-item">
+                        <div class="topic-details-label">Views</div>
+                        <div class="topic-details-value" id="topicViews">0</div>
+                    </div>
+                    <div class="topic-details-item">
+                        <div class="topic-details-label">Replies</div>
+                        <div class="topic-details-value" id="topicReplies">0</div>
+                    </div>
+                </div>
+                <div class="topic-actions">
+                    <button id="editTopicBtn" class="btn-secondary"><i class="fas fa-edit"></i> Edit Topic</button>
+                    <button id="deleteTopicBtn" class="btn-secondary"><i class="fas fa-trash"></i> Delete Topic</button>
+                    <button id="pinTopicBtn" class="btn-secondary"><i class="fas fa-thumbtack"></i> Pin Topic</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Category Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="categoryModalTitle">Add Category</h2>
+            <form id="categoryForm">
+                <div class="form-group">
+                    <label for="categoryName">Category Name</label>
+                    <input type="text" id="categoryName" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoryDescription">Description</label>
+                    <textarea id="categoryDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="categoryOrder">Display Order</label>
+                    <input type="number" id="categoryOrder" min="1" value="1" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelCategory" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveCategoryBtn">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Topic Modal -->
+    <div id="addTopicModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="topicModalTitle">Add Topic</h2>
+            <form id="topicForm">
+                <div class="form-group">
+                    <label for="topicTitleInput">Title</label>
+                    <input type="text" id="topicTitleInput" required>
+                </div>
+                <div class="form-group">
+                    <label for="topicCategorySelect">Category</label>
+                    <select id="topicCategorySelect" required>
+                        <!-- Categories will be loaded dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="topicContentInput">Content</label>
+                    <textarea id="topicContentInput" rows="6" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelTopic" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary" id="saveTopicBtn">Save Topic</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/forum.js"></script>
+</body>
+</html> 

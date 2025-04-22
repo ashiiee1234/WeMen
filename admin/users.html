@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Users - WeMen Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2>WeMen Admin</h2>
+            </div>
+            <div class="admin-menu">
+                <h3>Main</h3>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="cases.html"><i class="fas fa-file-alt"></i> Cases</a></li>
+                    <li><a href="users.html" class="active"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="forum-management.html"><i class="fas fa-comments"></i> Forum</a></li>
+                </ul>
+            </div>
+            <div class="admin-menu">
+                <h3>Settings</h3>
+                <ul>
+                    <li><a href="profile.html"><i class="fas fa-user-cog"></i> Profile</a></li>
+                    <li><a href="#" id="adminLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1 class="admin-title">User Management</h1>
+                <div class="admin-user">
+                    <img src="profile-photo.jpg" alt="Admin">
+                    <span id="adminName">Admin User</span>
+                </div>
+            </div>
+            
+            <!-- User Statistics -->
+            <div class="admin-cards">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="totalUsers">0</div>
+                    <div class="admin-card-label">Total Users</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon green">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="adminUsers">0</div>
+                    <div class="admin-card-label">Admin Users</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon orange">
+                            <i class="fas fa-user-tag"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="lawyerUsers">0</div>
+                    <div class="admin-card-label">Lawyer Users</div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="admin-card-icon red">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                    </div>
+                    <div class="admin-card-number" id="newUsers">0</div>
+                    <div class="admin-card-label">New Users (Last 30 Days)</div>
+                </div>
+            </div>
+            
+            <!-- User Filters -->
+            <div class="admin-filters">
+                <div class="filter-group">
+                    <label for="roleFilter">Role</label>
+                    <select id="roleFilter">
+                        <option value="all">All</option>
+                        <option value="user">User</option>
+                        <option value="lawyer">Lawyer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="blocked">Blocked</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="searchFilter">Search</label>
+                    <input type="text" id="searchFilter" placeholder="Search by name or email...">
+                </div>
+                <button id="applyFilters" class="btn-primary"><i class="fas fa-filter"></i> Apply Filters</button>
+            </div>
+            
+            <div class="admin-table">
+                <div class="admin-table-header">
+                    <h2 class="admin-table-title">All Users</h2>
+                    <div class="admin-table-actions">
+                        <button id="addUser" class="btn-primary"><i class="fas fa-user-plus"></i> Add User</button>
+                        <button id="exportUsers" class="btn-secondary"><i class="fas fa-download"></i> Export</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Joined Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr>
+                            <td colspan="7" class="text-center">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="usersPagination">
+                <!-- Pagination will be generated dynamically -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Details Modal -->
+    <div id="userDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>User Details</h2>
+            <div class="user-details-container">
+                <div class="user-profile-header">
+                    <img id="userProfileImage" src="../images/default-avatar.jpg" alt="User Profile">
+                    <div class="user-profile-info">
+                        <h3 id="userFullName">User Name</h3>
+                        <p id="userEmail">user@example.com</p>
+                        <span id="userRole" class="status">User</span>
+                    </div>
+                </div>
+                
+                <div class="user-details-content">
+                    <div class="user-details-section">
+                        <h4>Personal Information</h4>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Phone</div>
+                            <div class="user-details-value" id="userPhone">Not provided</div>
+                        </div>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Location</div>
+                            <div class="user-details-value" id="userLocation">Not provided</div>
+                        </div>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Joined Date</div>
+                            <div class="user-details-value" id="userJoinedDate">Not provided</div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-details-section">
+                        <h4>Account Status</h4>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Status</div>
+                            <div class="user-details-value">
+                                <select id="userStatus">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="blocked">Blocked</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Role</div>
+                            <div class="user-details-value">
+                                <select id="userRoleSelect">
+                                    <option value="user">User</option>
+                                    <option value="lawyer">Lawyer</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-details-section">
+                        <h4>Activity</h4>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Cases Submitted</div>
+                            <div class="user-details-value" id="userCasesCount">0</div>
+                        </div>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Forum Posts</div>
+                            <div class="user-details-value" id="userPostsCount">0</div>
+                        </div>
+                        <div class="user-details-item">
+                            <div class="user-details-label">Last Login</div>
+                            <div class="user-details-value" id="userLastLogin">Never</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-details-actions">
+                    <button id="deleteUserBtn" class="btn-secondary"><i class="fas fa-trash"></i> Delete User</button>
+                    <button id="saveUserBtn" class="btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New User</h2>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="newUserName">Full Name</label>
+                    <input type="text" id="newUserName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newUserEmail">Email</label>
+                    <input type="email" id="newUserEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="newUserPassword">Password</label>
+                    <input type="password" id="newUserPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="newUserRole">Role</label>
+                    <select id="newUserRole" required>
+                        <option value="user">User</option>
+                        <option value="lawyer">Lawyer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newUserPhone">Phone (Optional)</label>
+                    <input type="text" id="newUserPhone">
+                </div>
+                <div class="form-group">
+                    <label for="newUserLocation">Location (Optional)</label>
+                    <input type="text" id="newUserLocation">
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelAddUser" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="btn-primary">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/users.js"></script>
+</body>
+</html> 

@@ -1,0 +1,833 @@
+/* Dark Mode Styles for WeMen Platform */
+
+/* Modal Styles */
+.modal-content {
+    background-color: #1a1a1a;
+    color: var(--text-color);
+    border: 1px solid #333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+    color: var(--text-color);
+}
+
+.form-group label {
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background-color: #2b2b2b;
+    color: var(--text-color);
+    border: 1px solid #333;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(80, 0, 0, 0.25);
+}
+
+.social-login p {
+    color: var(--text-light);
+}
+
+.social-login p::before,
+.social-login p::after {
+    background-color: #333;
+}
+
+.form-footer {
+    color: var(--text-light);
+}
+
+.close {
+    color: var(--text-light);
+}
+
+/* Form Container Styles */
+.form-container {
+    background-color: #1a1a1a;
+    color: var(--text-color);
+    box-shadow: var(--box-shadow);
+    border: 1px solid #333;
+}
+
+.form-control label {
+    color: var(--text-color);
+}
+
+.form-control input,
+.form-control textarea,
+.form-control select {
+    background-color: #2b2b2b;
+    color: var(--text-color);
+    border: 2px solid #333;
+}
+
+.form-control input:focus,
+.form-control textarea:focus,
+.form-control select:focus {
+    border-color: var(--primary-color);
+}
+
+.file-upload {
+    background-color: #2b2b2b;
+    border: 2px dashed #444;
+    color: var(--text-color);
+}
+
+.file-upload:hover {
+    border-color: var(--primary-color);
+}
+
+.file-upload small {
+    color: var(--text-light);
+}
+
+/* Forum Styles */
+.forum-container {
+    background-color: #1a1a1a;
+    color: var(--text-color);
+}
+
+.forum-header,
+.forum-search,
+.forum-topics,
+.pagination {
+    background-color: #1a1a1a;
+}
+
+.forum-filters select,
+.forum-search input {
+    background-color: #2b2b2b;
+    color: var(--text-color);
+    border: 1px solid #333;
+}
+
+.topic-card {
+    background-color: #2b2b2b;
+    border-left: 4px solid var(--primary-color);
+}
+
+.loading {
+    color: var(--text-light);
+}
+
+.pagination button {
+    background-color: #2b2b2b;
+    color: var(--text-color);
+    border: 1px solid #333;
+}
+
+.pagination button.active {
+    background-color: var(--primary-color);
+}
+
+.guideline-card {
+    background-color: #1a1a1a;
+    color: var(--text-color);
+}
+
+/* Lawyer Directory Styles */
+.directory-container {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.directory-filters {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    border: 1px solid #333;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.filter-group select,
+.filter-group input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #333;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    background-color: #2b2b2b;
+    color: var(--text-color);
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.filter-button {
+    align-self: flex-end;
+    margin-top: 24px;
+}
+
+.lawyers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.lawyer-card {
+    background-color: #1a1a1a;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #333;
+}
+
+.lawyer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.lawyer-header {
+    position: relative;
+    height: 200px;
+    background-color: #222;
+    overflow: hidden;
+}
+
+.lawyer-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lawyer-verified {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.lawyer-content {
+    padding: 20px;
+}
+
+.lawyer-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 5px;
+    color: var(--text-color);
+}
+
+.lawyer-specialization {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin: 0 0 15px;
+}
+
+.lawyer-info {
+    margin-bottom: 15px;
+    background-color: #1a1a1a;
+}
+
+.lawyer-info p {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-light);
+}
+
+.lawyer-info i {
+    color: var(--primary-color);
+    width: 20px;
+    text-align: center;
+}
+
+.lawyer-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.lawyer-rating i {
+    color: #ffc107;
+}
+
+.lawyer-rating span {
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.lawyer-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.lawyer-tag {
+    background-color: #2b2b2b;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.lawyer-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.lawyer-actions a {
+    flex: 1;
+    text-align: center;
+}
+
+/* Chat Specific Styles */
+.chat-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: #1a1a1a;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.chat-header i {
+    font-size: 24px;
+}
+
+.chat-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.chat-messages {
+    height: 400px;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #0a0a0a;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.message.user {
+    align-self: flex-end;
+}
+
+.message.bot {
+    align-self: flex-start;
+}
+
+.message-content {
+    padding: 12px 15px;
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message.user .message-content {
+    background-color: var(--primary-color);
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.message.bot .message-content {
+    background-color: #2b2b2b;
+    color: var(--text-color);
+    border-bottom-left-radius: 5px;
+}
+
+.message-time {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 5px;
+    align-self: flex-end;
+}
+
+.chat-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #333;
+    background-color: #1a1a1a;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #333;
+    border-radius: 30px;
+    font-size: 16px;
+    background-color: #2b2b2b;
+    color: var(--text-color);
+}
+
+.chat-input button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.chat-input button:hover {
+    background-color: var(--accent-color);
+}
+
+.chat-input button i {
+    font-size: 20px;
+}
+
+.chat-disclaimer {
+    max-width: 800px;
+    margin: 20px auto 40px;
+    padding: 15px 20px;
+    background-color: #2b2b2b;
+    border-left: 4px solid var(--accent-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+}
+
+.chat-disclaimer h3 {
+    margin-top: 0;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-disclaimer p {
+    margin-bottom: 0;
+    color: var(--text-light);
+}
+
+.legal-topics {
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.legal-topics h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.legal-topics p {
+    color: var(--text-light);
+}
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.topic-button {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+}
+
+.topic-button:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow);
+}
+
+.topic-button i {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.topic-button h3 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+/* Success Page Styles */
+.success-section {
+    background-color: #0a0a0a;
+}
+
+.success-content {
+    background-color: #1a1a1a;
+    color: var(--text-color);
+    border: 1px solid #333;
+}
+
+.success-content h1,
+.success-content h2 {
+    color: var(--text-color);
+}
+
+.success-content p {
+    color: var(--text-light);
+}
+
+.what-next {
+    background-color: #2b2b2b;
+    border: 1px solid #333;
+}
+
+.what-next h2 {
+    color: var(--text-color);
+}
+
+.what-next li {
+    color: var(--text-light);
+}
+
+/* Button Overrides */
+.btn-anonymous {
+    background-color: #333;
+}
+
+.btn-anonymous:hover {
+    background-color: #444;
+}
+
+/* Checkbox Styling */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+}
+
+/* Dark Mode for Table Elements */
+table {
+    color: var(--text-color);
+}
+
+th {
+    background-color: #2b2b2b;
+    color: var(--text-color);
+}
+
+td {
+    color: var(--text-light);
+}
+
+tr {
+    border-bottom: 1px solid #333;
+}
+
+tr:hover {
+    background-color: #222;
+}
+
+/* Admin Dark Mode Styles */
+.admin-container {
+    background-color: #1a1a1a;
+}
+
+.admin-sidebar {
+    background-color: #0f0f0f; /* Keep sidebar dark */
+    border-right: 1px solid #333;
+}
+
+.admin-content {
+    background-color: #222; /* Slightly lighter than the darkest background for better visibility */
+    color: var(--text-color);
+}
+
+.admin-title {
+    color: #fff;
+}
+
+.admin-header {
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.admin-card {
+    background-color: #2b2b2b;
+    border: 1px solid #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.admin-card-label {
+    color: #aaa;
+}
+
+.admin-card-number {
+    color: #fff;
+}
+
+.admin-table {
+    background-color: #2b2b2b;
+    border: 1px solid #333;
+}
+
+.admin-table-header {
+    border-bottom: 1px solid #333;
+}
+
+.admin-table-title {
+    color: #fff;
+}
+
+.admin-table th {
+    background-color: #333;
+    color: #fff;
+    border-bottom: 1px solid #444;
+}
+
+.admin-table td {
+    border-bottom: 1px solid #333;
+    color: #ddd;
+}
+
+.admin-table tr:hover {
+    background-color: #333;
+}
+
+.admin-filters {
+    background-color: #2b2b2b;
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    color: #ddd;
+}
+
+.status.pending {
+    background-color: #332700;
+    color: #ffbb00;
+}
+
+.status.approved {
+    background-color: #133000;
+    color: #4CAF50;
+}
+
+.status.rejected {
+    background-color: #300000;
+    color: #f44336;
+}
+
+/* Case details modal */
+.case-details-modal .modal-content {
+    background-color: #2b2b2b;
+}
+
+.case-details-header {
+    border-bottom: 1px solid #333;
+}
+
+.case-details-title {
+    color: #fff;
+}
+
+.case-details-item {
+    border-bottom: 1px solid #333;
+}
+
+.case-details-label {
+    color: #aaa;
+}
+
+.case-details-value {
+    color: #fff;
+}
+
+.case-details-description h3,
+.case-details-attachments h3 {
+    color: #fff;
+}
+
+.case-details-description p {
+    color: #ddd;
+}
+
+.attachments-list {
+    background-color: #333;
+    border: 1px solid #444;
+}
+
+/* Additional Admin Dark Mode Styles for Better Visibility */
+.admin-tabs {
+    background-color: #2b2b2b;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.admin-nav-tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
+.admin-nav-tabs li a {
+    padding: 15px 25px;
+    display: block;
+    color: #aaa;
+    transition: var(--transition);
+}
+
+.admin-nav-tabs li a:hover,
+.admin-nav-tabs li a.active {
+    color: #fff;
+    background-color: #333;
+}
+
+.admin-tab-content {
+    display: none;
+    padding: 20px;
+}
+
+.admin-tab-content.active {
+    display: block;
+}
+
+/* Form styling in admin */
+.admin-content .form-control input,
+.admin-content .form-control textarea,
+.admin-content .form-control select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+.admin-content .form-control input:focus,
+.admin-content .form-control textarea:focus,
+.admin-content .form-control select:focus {
+    border-color: var(--primary-color);
+    background-color: #3a3a3a;
+}
+
+.admin-content .form-control label {
+    color: #ddd;
+}
+
+/* Profile section styling */
+.profile-section {
+    background-color: #2b2b2b;
+    border: 1px solid #333;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.section-heading {
+    color: #fff;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.notification-option {
+    border-bottom: 1px solid #333;
+}
+
+.notification-info h4 {
+    color: #fff;
+}
+
+.notification-info p {
+    color: #aaa;
+}
+
+/* Toast messages in dark mode */
+.message-toast {
+    background-color: #2b2b2b;
+    border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.message-toast .message-content p {
+    color: #fff;
+}
+
+.message-toast .message-close {
+    color: #aaa;
+}
+
+/* User details modal in dark mode */
+.user-details-container {
+    background-color: #2b2b2b;
+}
+
+.user-profile-header {
+    background-color: #333;
+}
+
+.user-profile-info h3 {
+    color: #fff;
+}
+
+.user-profile-info p {
+    color: #aaa;
+}
+
+.user-details-section h4 {
+    color: #fff;
+    border-bottom: 1px solid #444;
+}
+
+.user-details-label {
+    color: #aaa;
+}
+
+.user-details-value {
+    color: #fff;
+} 

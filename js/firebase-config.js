@@ -1,13 +1,13 @@
 // Firebase configuration
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDx0lEoDrem6qg29IzOiBbIg8Gp3QXNfVc",
-    authDomain: "wemen-d9ec7.firebaseapp.com",
-    projectId: "wemen-d9ec7",
-    storageBucket: "wemen-d9ec7.firebasestorage.app",
-    messagingSenderId: "30073696094",
-    appId: "1:30073696094:web:c3334d1c719b9e5e2ea9cf",
-    measurementId: "G-HK4252N6BF"
+    apiKey: "AIzaSyASNKkt9Doxa1H8WXGYxDCQ3ABB3I2v_pY",
+    authDomain: "wemen-5a087.firebaseapp.com",
+    projectId: "wemen-5a087",
+    storageBucket: "wemen-5a087.firebasestorage.app",
+    messagingSenderId: "195921236221",
+    appId: "1:195921236221:web:75c2308da83172076a6e94",
+    measurementId: "G-QMS2SPESGN"
 };
 
 // Initialize Firebase
